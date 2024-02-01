@@ -1,11 +1,20 @@
+import classNames from "classnames";
+import Login from "./component/Login";
+import Dashboard from "./component/dashboard/dashboard";
+
 function App() {
+  const query = new URLSearchParams(window.location.search);
+  const code = query.get("code");
+  // console.log(code);
+
   return (
-    <main className="bg-[#121313] text-white w-[700px]  h-[700px] rounded-xl flex flex-col items-center justify-center gap-y-[1rem]">
-      <h1 className="text-[3rem]">Clone Spotify</h1>
-      <p>Please click to login</p>
-      <button className="bg-[#1ED661] text-black font-bold px-[2rem] py-[0.5rem] rounded-2xl hover:bg-opacity-70">
-        Login
-      </button>
+    <main
+      className={classNames(
+        " h-[100vh] w-full bg-[#000101] flex justify-center items-center",
+        { "bg-[#0c0c0ce7]": !code }
+      )}
+    >
+      {code ? <Dashboard code={code} /> : <Login />}
     </main>
   );
 }
