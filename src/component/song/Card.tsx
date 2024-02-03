@@ -30,6 +30,14 @@ const Card = ({
         setShowAddPlaylist(true);
       },
     },
+    {
+      label: 'Save to your Liked Songs',
+      icon: <GoPlus className="text-[1.2rem]" />,
+      isDropdown: false,
+      onMouseOver: () => {
+        setShowAddPlaylist(false);
+      },
+    },
   ];
   const [showAddPlaylist, setShowAddPlaylist] = useState<boolean>(false);
 
@@ -51,7 +59,7 @@ const Card = ({
   };
   return (
     <section className="flex items-center justify-between  p-[0.5rem] pr-[2rem] hover:bg-hoverSong  rounded-md ">
-      <section className="flex items-center gap-x-[1rem] text-[0.9rem]">
+      <section className="flex items-center gap-x-[1rem] text-[0.9rem]  w-full cursor-pointer">
         {/* no songs */}
         <section className="px-[1rem]">{index + 1}</section>
         {/* title  */}
@@ -86,24 +94,22 @@ const Card = ({
 
         <div className="absolute right-0 ">
           {clickedOptionId === song.id && (
-            <div className="flex flex-row-reverse gap-x-[0.5rem] ">
-              {optionMenu?.map((element, index) => {
-                return (
-                  <FloatingMenu
-                    key={index}
-                    icon={element.icon}
-                    label={element.label}
-                    isDropdown={element.isDropdown}
-                    onMouseOver={element.onMouseOver}
-                  />
-                );
-              })}
+            <div className="flex flex-row-reverse gap-x-[0rem] ">
+              <div>
+                {optionMenu?.map((element, index) => {
+                  return (
+                    <FloatingMenu
+                      key={index}
+                      icon={element.icon}
+                      label={element.label}
+                      isDropdown={element.isDropdown}
+                      onMouseOver={element.onMouseOver}
+                    />
+                  );
+                })}
+              </div>
 
-              {showAddPlaylist && (
-                <MenuAddPlaylist
-                  onMouseLeave={() => setShowAddPlaylist(false)}
-                />
-              )}
+              {showAddPlaylist && <MenuAddPlaylist onMouseLeave={() => {}} />}
             </div>
           )}
         </div>
