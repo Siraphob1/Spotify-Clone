@@ -1,6 +1,7 @@
 import { TrackItem } from '../../type/song';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { GoPlus } from 'react-icons/go';
+import { IoIosPlay } from 'react-icons/io';
 import Tooltip from '../share/Tooltip';
 import { ToolTipPositionE } from '../../type/tooltip';
 import { Menu } from '../../type/floatingMenu';
@@ -40,6 +41,7 @@ const Card = ({
     },
   ];
   const [showAddPlaylist, setShowAddPlaylist] = useState<boolean>(false);
+  const [isHover, setIsHover] = useState<boolean>(false);
 
   const getImage = (): string => {
     const imageUrl = song.album.images[0].url;
@@ -58,10 +60,16 @@ const Card = ({
     return song.album.name;
   };
   return (
-    <section className="flex items-center justify-between  p-[0.5rem] pr-[2rem] hover:bg-hoverSong  rounded-md ">
+    <section
+      className="flex items-center justify-between  p-[0.5rem] pr-[2rem] hover:bg-hoverSong  rounded-md "
+      onMouseOver={() => setIsHover(true)}
+      onMouseOut={() => setIsHover(false)}
+    >
       <section className="flex items-center gap-x-[1rem] text-[0.9rem]  w-full cursor-pointer">
         {/* no songs */}
-        <section className="px-[1rem]">{index + 1}</section>
+        <section className="flex justify-center  w-[2rem]">
+          {isHover ? <IoIosPlay className="text-[2rem] " /> : index + 1}
+        </section>
         {/* title  */}
         <section className="flex gap-x-[1rem] w-[400px]">
           <img
