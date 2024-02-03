@@ -71,7 +71,7 @@ const Card = ({
           {isHover ? <IoIosPlay className="text-[2rem] " /> : index + 1}
         </section>
         {/* title  */}
-        <section className="flex gap-x-[1rem] w-[400px]">
+        <section className="flex gap-x-[1rem] w-[200px] md:w-[300px] lg:w-[400px]">
           <img
             src={getImage()}
             alt={getImage()}
