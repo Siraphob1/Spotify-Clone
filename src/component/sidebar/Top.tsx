@@ -23,13 +23,13 @@ const Top = ({ className }: Props) => {
   const [selectMenu, setSelectMenu] = useState<string>('');
   return (
     <div className={className}>
-      {listMenu.map((element) => {
+      {listMenu.map((element, index) => {
         return (
           <div
+            key={index}
             className="flex items-center gap-x-[1rem] p-[1rem] cursor-pointer "
             onClick={() => {
               setSelectMenu(element.label);
-              console.log(element.label);
             }}
           >
             <span className="text-[1.4rem]">
