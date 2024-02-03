@@ -20,6 +20,7 @@ export type Artist = {
 
 export type Album = {
   images: Image[];
+  name: string;
 };
 
 export type Image = {

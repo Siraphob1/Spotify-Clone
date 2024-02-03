@@ -3,11 +3,12 @@ import { IoMdClose } from 'react-icons/io';
 import { IoSearchOutline } from 'react-icons/io5';
 
 type Props = {
+  className?: string;
   placeholder: string;
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 };
-const Search = ({ placeholder, search, setSearch }: Props) => {
+const Search = ({ className, placeholder, search, setSearch }: Props) => {
   const handleClear = () => {
     setSearch('');
   };
@@ -16,7 +17,7 @@ const Search = ({ placeholder, search, setSearch }: Props) => {
     setSearch(e.target.value);
   };
   return (
-    <div className="relative  max-w-xs">
+    <div className={className ? className : 'relative  max-w-xs'}>
       <IoSearchOutline className="absolute top-[50%] translate-y-[-50%] left-[1rem] text-[1.4rem]" />
       <input
         type="text"

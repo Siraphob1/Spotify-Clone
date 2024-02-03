@@ -10,7 +10,7 @@ const Dashboard = ({ code }: Props) => {
   const accesstoken = useAuth(code);
   // userefre
 
-  console.log(code);
+  // console.log(code);
 
   return (
     <div className="text-white w-full p-[0.5rem] ">

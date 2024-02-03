@@ -10,7 +10,6 @@ export const useAuth = (code: string) => {
 
   useEffect(() => {
     const login = async () => {
-      console.log(new Date().toString());
       try {
         const resp = await loginAPI(code);
         setAccessToken(resp.accessToken);
