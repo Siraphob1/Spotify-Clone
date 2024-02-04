@@ -26,10 +26,12 @@ const Search = ({ className, placeholder, search, setSearch }: Props) => {
         value={search}
         onChange={handleChange}
       />
-      <IoMdClose
-        className="absolute top-[50%] translate-y-[-50%] right-[1rem] text-[1.4rem] cursor-pointer"
-        onClick={handleClear}
-      />
+      {search.trim().length >= 1 && (
+        <IoMdClose
+          className="absolute top-[50%] translate-y-[-50%] right-[1rem] text-[1.4rem] cursor-pointer"
+          onClick={handleClear}
+        />
+      )}
     </div>
   );
 };

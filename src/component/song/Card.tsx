@@ -1,16 +1,18 @@
-import { TrackItem } from '../../type/song';
+import { useState } from 'react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { GoPlus } from 'react-icons/go';
 import { IoIosPlay } from 'react-icons/io';
 import Tooltip from '../share/Tooltip';
+import FloatingMenu from '../share/FloatingMenu';
+import { TrackItem } from '../../type/song';
 import { ToolTipPositionE } from '../../type/tooltip';
 import { Menu } from '../../type/floatingMenu';
-import FloatingMenu from '../share/FloatingMenu';
-import { useState } from 'react';
 import MenuAddPlaylist from '../playlist/MenuAddPlaylist';
+import moment from 'moment';
 
 type Props = {
   index: number;
+  added_at?: string;
   song: TrackItem;
   clickedOptionId: string;
   handleClickCardOption: (id: string) => void;
@@ -18,6 +20,7 @@ type Props = {
 
 const Card = ({
   index,
+  added_at,
   song,
   clickedOptionId,
   handleClickCardOption,
@@ -59,6 +62,10 @@ const Card = ({
   const getAlbumName = (): string => {
     return song.album.name;
   };
+
+  const getDate = () => {
+    return moment(added_at).fromNow();
+  };
   return (
     <section
       className="flex items-center justify-between  p-[0.5rem] pr-[2rem] hover:bg-hoverSong  rounded-md "
@@ -83,7 +90,9 @@ const Card = ({
           </div>
         </section>
         {/* album */}
-        <section>{getAlbumName()}</section>
+        <section className="w-[220px]">{getAlbumName()}</section>
+        {/* date */}
+        {!!added_at && <section>{getDate()}</section>}
       </section>
       {/* option button */}
       <section className=" relative">
