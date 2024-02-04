@@ -1,10 +1,10 @@
-import queryString from "query-string";
+import queryString from 'query-string';
 
 const Login = () => {
   const query = queryString.stringify({
     client_id: import.meta.env.VITE_CLIENT_ID,
-    response_type: "code",
-    redirect_uri: import.meta.env.VITE_HOST,
+    response_type: 'code',
+    redirect_uri: 'https://spotify-clone-logpb2hrb-siraphob1.vercel.app/',
     scope: `streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-modify-public`,
   });
 
