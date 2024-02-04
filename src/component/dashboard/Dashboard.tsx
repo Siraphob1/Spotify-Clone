@@ -35,6 +35,7 @@ const Dashboard = ({ code }: Props) => {
 
     getPlaylist();
     getUserProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]);
 
   return (

@@ -7,7 +7,6 @@ import { PlaylistItemResponse, TrackInPlaylistId } from '../../type/playlist';
 import Search from '../share/Search';
 import Card from '../song/Card';
 import PlaylistImage from '../share/PlaylistImage';
-// type Props = {};
 
 const Playlist = () => {
   const { selectPlaylist } = useDashboard();
@@ -40,11 +39,14 @@ const Playlist = () => {
     const playlistId = selectPlaylist?.id;
     if (!playlistId) return;
 
-    const resp = await getPlaylistItemAPI(newAccessToken, playlistId);
-    setPlaylistItem(resp);
-    setFilterSongs(resp.items);
-    setSearch('');
-    console.log('fetch playlist item', resp);
+    try {
+      const resp = await getPlaylistItemAPI(newAccessToken, playlistId);
+      setPlaylistItem(resp);
+      setFilterSongs(resp.items);
+      setSearch('');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClickCardOption = (id: string) => {
@@ -58,6 +60,7 @@ const Playlist = () => {
   // fetch when change playlist
   useEffect(() => {
     fetchPlaylistItem();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectPlaylist?.id]);
 
   // filter when enter search
@@ -67,6 +70,7 @@ const Playlist = () => {
     );
     if (!filterSearch) return setFilterSongs([]);
     setFilterSongs(filterSearch);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   return (

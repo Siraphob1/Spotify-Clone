@@ -36,6 +36,7 @@ const SearchSong = () => {
 
   useEffect(() => {
     searchSong();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   return (
