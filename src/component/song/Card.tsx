@@ -47,7 +47,7 @@ const Card = ({
   const [isHover, setIsHover] = useState<boolean>(false);
 
   const getImage = (): string => {
-    const imageUrl = song.album.images[0].url;
+    const imageUrl = song.album.images[0]?.url;
     return imageUrl;
   };
 

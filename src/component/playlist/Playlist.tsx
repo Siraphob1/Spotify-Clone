@@ -6,6 +6,7 @@ import LayoutMain from '../../layout/LayoutMain';
 import { PlaylistItemResponse, TrackInPlaylistId } from '../../type/playlist';
 import Search from '../share/Search';
 import Card from '../song/Card';
+import PlaylistImage from '../share/PlaylistImage';
 // type Props = {};
 
 const Playlist = () => {
@@ -19,7 +20,7 @@ const Playlist = () => {
   const [filterSongs, setFilterSongs] = useState<TrackInPlaylistId[]>([]);
 
   const getImage = (): string => {
-    return selectPlaylist?.images[0].url || '';
+    return selectPlaylist?.images[0]?.url || '';
   };
 
   const getPlaylistName = (): string => {
@@ -28,7 +29,7 @@ const Playlist = () => {
 
   const getTotal = () => {
     const total = playlistItem?.total;
-    if (!total) return 'NaN';
+    if (!total) return 'no song';
 
     if (total === 1) return `${total} song`;
     if (total > 1) return `${total} songs`;
@@ -72,11 +73,20 @@ const Playlist = () => {
     <LayoutMain>
       {playlistItem && (
         <section className="flex items-center gap-x-[1rem]  p-[2rem]  ">
-          <img
-            src={getImage()}
-            alt={getImage()}
-            className="w-[150px] h-[150px] rounded-md"
-          />
+          {getImage() && (
+            <img
+              src={getImage()}
+              alt={getImage()}
+              className="w-[150px] h-[150px] rounded-md"
+            />
+          )}
+          {!getImage() && (
+            <PlaylistImage
+              className={
+                'bg-n-createPlaylist  w-[150px] h-[150px] text-[4rem] flex justify-center items-center rounded-md  shadow-2xl drop-shadow-2xl '
+              }
+            />
+          )}
           <section className=" h-[150px] ">
             <p className="uppercase">Playlist</p>
             <h1 className="text-[4rem] font-bold ">{getPlaylistName()}</h1>

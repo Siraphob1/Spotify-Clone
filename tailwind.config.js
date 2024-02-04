@@ -11,6 +11,8 @@ export default {
         'h-floating': '#3f3f3e',
         'n-playlist': '#1a1a1a',
         'h-playlist': '#222322',
+        'n-createPlaylist': '#292928',
+        'n-inputCreatePlaylist': '#3e3e3e',
       },
     },
   },

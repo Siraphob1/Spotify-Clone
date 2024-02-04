@@ -1,10 +1,12 @@
 import { VscLibrary } from 'react-icons/vsc';
 import { GoPlus } from 'react-icons/go';
+import { IoReload } from 'react-icons/io5';
 import Tooltip from '../share/Tooltip';
 import ButtonCircle from '../share/ButtonCircle';
-import { useEffect } from 'react';
 import { useUser } from '../../hooks/useUser';
 import Card from '../playlist/Card';
+import CreatePlaylist from '../playlist/CreatePlaylist';
+import { useState } from 'react';
 
 type Props = {
   className: string;
@@ -12,9 +14,8 @@ type Props = {
 
 const Bottom = ({ className }: Props) => {
   const { playlists } = useUser();
-  useEffect(() => {
-    console.log('playlists', playlists);
-  }, [playlists]);
+
+  const [openCreatePlaylist, setOpenCreatePlaylist] = useState<boolean>(false);
   return (
     <div className={className}>
       {/* section top */}
@@ -26,10 +27,15 @@ const Bottom = ({ className }: Props) => {
           </span>
         </Tooltip>
         {/* right */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-x-[0.5rem]">
+          {/* reload button */}
+          <ButtonCircle label="Reload" onClick={() => console.log('ss')}>
+            <IoReload className="text-[1.2rem]" />
+          </ButtonCircle>
+          {/* create playlist */}
           <ButtonCircle
             label="Create new playlist"
-            onClick={() => console.log('ss')}
+            onClick={() => setOpenCreatePlaylist(true)}
           >
             <GoPlus className="text-[1.4rem]" />
           </ButtonCircle>
@@ -42,6 +48,11 @@ const Bottom = ({ className }: Props) => {
           return <Card key={index} playlist={element} />;
         })}
       </section>
+
+      <CreatePlaylist
+        isOpen={openCreatePlaylist}
+        setOpen={setOpenCreatePlaylist}
+      />
     </div>
   );
 };
