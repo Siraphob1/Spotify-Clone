@@ -48,7 +48,7 @@ const Card = ({
     // },
   ];
   const refresh = useRefreshToken();
-  const { selectPlaylist } = useDashboard();
+  const { selectPlaylist, setPlayingSong } = useDashboard();
   const { setPlaylists } = useUser();
   const [showAddPlaylist, setShowAddPlaylist] = useState<boolean>(false);
   const [isHover, setIsHover] = useState<boolean>(false);
@@ -94,13 +94,20 @@ const Card = ({
     }
   };
 
+  const handlePlaySong = () => {
+    setPlayingSong(song);
+  };
+
   return (
     <section
       className="flex items-center justify-between  p-[0.5rem] pr-[2rem] hover:bg-hoverSong  rounded-md "
       onMouseOver={() => setIsHover(true)}
       onMouseOut={() => setIsHover(false)}
     >
-      <section className="flex items-center gap-x-[1rem] text-[0.9rem]  w-full cursor-pointer">
+      <section
+        className="flex items-center gap-x-[1rem] text-[0.9rem]  w-full cursor-pointer"
+        onClick={handlePlaySong}
+      >
         {/* no songs */}
         <section className="flex justify-center  w-[2rem]">
           {isHover ? <IoIosPlay className="text-[2rem] " /> : index + 1}

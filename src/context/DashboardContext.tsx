@@ -1,6 +1,7 @@
 import { PropsWithChildren, createContext, useState } from 'react';
 import { DashboardStatusE } from '../type/dashboard';
 import { PlaylistItem } from '../type/playlist';
+import { TrackItem } from '../type/song';
 
 type DashboardContextT = {
   status: DashboardStatusE;
@@ -9,6 +10,8 @@ type DashboardContextT = {
   setSelectPlaylist: React.Dispatch<
     React.SetStateAction<PlaylistItem | undefined>
   >;
+  playingSong: TrackItem | undefined;
+  setPlayingSong: React.Dispatch<React.SetStateAction<TrackItem | undefined>>;
 };
 
 const DashboardContext = createContext<DashboardContextT>(undefined!);
@@ -18,10 +21,18 @@ export const DashboardProvider = ({ children }: PropsWithChildren) => {
     DashboardStatusE.SEARCH
   );
   const [selectPlaylist, setSelectPlaylist] = useState<PlaylistItem>();
+  const [playingSong, setPlayingSong] = useState<TrackItem>();
 
   return (
     <DashboardContext.Provider
-      value={{ status, setStatus, selectPlaylist, setSelectPlaylist }}
+      value={{
+        status,
+        setStatus,
+        selectPlaylist,
+        setSelectPlaylist,
+        playingSong,
+        setPlayingSong,
+      }}
     >
       {children}
     </DashboardContext.Provider>

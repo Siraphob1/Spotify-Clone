@@ -9,6 +9,8 @@ import CreatePlaylist from '../playlist/CreatePlaylist';
 import { useState } from 'react';
 import { getPlaylistAPI } from '../../api/playlist';
 import { useRefreshToken } from '../../hooks/useRefreshToken';
+import { useDashboard } from '../../hooks/useDashboard';
+import classNames from 'classnames';
 
 type Props = {
   className: string;
@@ -17,6 +19,7 @@ type Props = {
 const Bottom = ({ className }: Props) => {
   const refresh = useRefreshToken();
   const { playlists, setPlaylists } = useUser();
+  const { playingSong } = useDashboard();
 
   const [openCreatePlaylist, setOpenCreatePlaylist] = useState<boolean>(false);
   const [loadingReload, setLoadingReload] = useState<boolean>(false);
@@ -64,7 +67,11 @@ const Bottom = ({ className }: Props) => {
       </section>
 
       {/* section bottom */}
-      <section className="mt-[2rem]">
+      <section
+        className={classNames('mt-[2rem] ', {
+          'h-[310px] overflow-y-scroll': !!playingSong,
+        })}
+      >
         {playlists?.map((element, index) => {
           return <Card key={index} playlist={element} />;
         })}

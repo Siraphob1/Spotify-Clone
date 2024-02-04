@@ -7,10 +7,13 @@ import { useSearch } from '../../hooks/useSearch';
 import Card from '../song/Card';
 import { queryParams } from '../../type/queryParams';
 import LayoutMain from '../../layout/LayoutMain';
+import classNames from 'classnames';
+import { useDashboard } from '../../hooks/useDashboard';
 
 const SearchSong = () => {
   const refresh = useRefreshToken();
   const { songs, setSongs } = useSearch();
+  const { playingSong } = useDashboard();
   const [search, setSearch] = useState<string>('');
   const [clickedOptionId, setClickedOptionId] = useState<string>('');
 
@@ -48,7 +51,12 @@ const SearchSong = () => {
           setSearch={setSearch}
         />
 
-        <section className="mt-[2rem] h-[calc(100vh-10rem)] overflow-y-scroll">
+        <section
+          className={classNames('mt-[2rem]  overflow-y-scroll', {
+            'h-[calc(100vh-10rem)]': !playingSong,
+            'h-[calc(100vh-10rem-152px)]': !!playingSong,
+          })}
+        >
           {songs?.map((element, index) => {
             return (
               <Card

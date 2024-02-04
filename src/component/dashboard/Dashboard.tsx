@@ -9,6 +9,7 @@ import { useDashboard } from '../../hooks/useDashboard';
 import Playlist from '../playlist/Playlist';
 import { DashboardStatusE } from '../../type/dashboard';
 import { getCurrentUserAPI } from '../../api/user';
+import Player from '../player/Player';
 
 type Props = {
   code: string;
@@ -18,7 +19,7 @@ const Dashboard = ({ code }: Props) => {
   const accessToken = useAuth(code);
   const refresh = useRefreshToken();
   const { setPlaylists, setProfile } = useUser();
-  const { status } = useDashboard();
+  const { status, playingSong } = useDashboard();
 
   useEffect(() => {
     const getPlaylist = async () => {
@@ -39,12 +40,13 @@ const Dashboard = ({ code }: Props) => {
   }, [accessToken]);
 
   return (
-    <div className="text-white w-full p-[0.5rem] ">
-      <section className="flex gap-x-[0.5rem]">
+    <div className="text-white w-full p-[0.5rem] relative  ">
+      <section className="flex gap-x-[0.5rem] ">
         <SideBar />
         {status === DashboardStatusE.SEARCH && <SearchSong />}
         {status === DashboardStatusE.PLAYLIST && <Playlist />}
       </section>
+      {playingSong && <Player />}
     </div>
   );
 };
