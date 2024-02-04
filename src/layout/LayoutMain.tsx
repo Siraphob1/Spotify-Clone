@@ -1,44 +1,46 @@
-import { useEffect, useState } from 'react';
-import Search from '../component/share/Search';
-import { useRefreshToken } from '../hooks/useRefreshToken';
-import { searchAPI } from '../api/search';
-import { queryParams } from '../type/queryParams';
-import { useSearch } from '../hooks/useSearch';
-import Card from '../component/song/Card';
+// import { useEffect, useState } from 'react';
+// import Search from '../component/share/Search';
+// import { useRefreshToken } from '../hooks/useRefreshToken';
+// import { searchAPI } from '../api/search';
+// import { queryParams } from '../type/queryParams';
+// import { useSearch } from '../hooks/useSearch';
+// import Card from '../component/song/Card';
 
-const LayoutMain = () => {
-  const refresh = useRefreshToken();
-  const { songs, setSongs } = useSearch();
-  const [search, setSearch] = useState<string>('');
-  const [clickedOptionId, setClickedOptionId] = useState<string>('');
+import { PropsWithChildren } from 'react';
 
-  const searchSong = async () => {
-    if (!search) return;
-    const accessToken = await refresh();
-    const query: queryParams = {
-      q: search,
-      type: 'track',
-    };
-    const resp = await searchAPI(query, accessToken);
-    setSongs(resp.items);
-    console.log('searchSongs', resp);
-  };
+const LayoutMain = ({ children }: PropsWithChildren) => {
+  // const refresh = useRefreshToken();
+  // const { songs, setSongs } = useSearch();
+  // const [search, setSearch] = useState<string>('');
+  // const [clickedOptionId, setClickedOptionId] = useState<string>('');
 
-  const handleClickCardOption = (id: string) => {
-    if (clickedOptionId === id) {
-      setClickedOptionId('');
-    } else {
-      setClickedOptionId(id);
-    }
-  };
+  // const searchSong = async () => {
+  //   if (!search) return;
+  //   const accessToken = await refresh();
+  //   const query: queryParams = {
+  //     q: search,
+  //     type: 'track',
+  //   };
+  //   const resp = await searchAPI(query, accessToken);
+  //   setSongs(resp.items);
+  //   console.log('searchSongs', resp);
+  // };
 
-  useEffect(() => {
-    searchSong();
-  }, [search]);
+  // const handleClickCardOption = (id: string) => {
+  //   if (clickedOptionId === id) {
+  //     setClickedOptionId('');
+  //   } else {
+  //     setClickedOptionId(id);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   searchSong();
+  // }, [search]);
 
   return (
     <div className="bg-BgFirstPage   h-[calc(100vh-1rem)] w-[calc(100vw-300px)] rounded-xl p-[1rem]">
-      <Search
+      {/* <Search
         placeholder={'What do you want to listen to?'}
         search={search}
         setSearch={setSearch}
@@ -56,7 +58,8 @@ const LayoutMain = () => {
             />
           );
         })}
-      </section>
+      </section> */}
+      {children}
     </div>
   );
 };
