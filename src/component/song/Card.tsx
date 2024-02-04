@@ -109,7 +109,7 @@ const Card = ({
           />
         </Tooltip>
 
-        <div className="absolute right-0 ">
+        <div className="absolute right-0 z-[2]">
           {clickedOptionId === song.id && (
             <div className="flex flex-row-reverse gap-x-[0rem] ">
               <div>
@@ -126,7 +126,7 @@ const Card = ({
                 })}
               </div>
 
-              {showAddPlaylist && <MenuAddPlaylist onMouseLeave={() => {}} />}
+              {showAddPlaylist && <MenuAddPlaylist />}
             </div>
           )}
         </div>
