@@ -7,15 +7,32 @@ import { useUser } from '../../hooks/useUser';
 import Card from '../playlist/Card';
 import CreatePlaylist from '../playlist/CreatePlaylist';
 import { useState } from 'react';
+import { getPlaylistAPI } from '../../api/playlist';
+import { useRefreshToken } from '../../hooks/useRefreshToken';
 
 type Props = {
   className: string;
 };
 
 const Bottom = ({ className }: Props) => {
-  const { playlists } = useUser();
+  const refresh = useRefreshToken();
+  const { playlists, setPlaylists } = useUser();
 
   const [openCreatePlaylist, setOpenCreatePlaylist] = useState<boolean>(false);
+  const [loadingReload, setLoadingReload] = useState<boolean>(false);
+
+  const getPlaylist = async () => {
+    try {
+      setLoadingReload(true);
+      const newAccessToken = await refresh();
+      const resp = await getPlaylistAPI(newAccessToken);
+      setPlaylists(resp.items);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingReload(false);
+    }
+  };
   return (
     <div className={className}>
       {/* section top */}
@@ -29,8 +46,12 @@ const Bottom = ({ className }: Props) => {
         {/* right */}
         <div className="flex items-center gap-x-[0.5rem]">
           {/* reload button */}
-          <ButtonCircle label="Reload" onClick={() => console.log('ss')}>
-            <IoReload className="text-[1.2rem]" />
+          <ButtonCircle
+            label="Reload"
+            isLoading={loadingReload}
+            onClick={() => console.log('ss')}
+          >
+            <IoReload className="text-[1.2rem]" onClick={getPlaylist} />
           </ButtonCircle>
           {/* create playlist */}
           <ButtonCircle
