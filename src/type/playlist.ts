@@ -16,7 +16,7 @@ export type TrackInPlaylistId = {
   track: TrackItem;
 };
 
-export type PlaylistIdResponse = {
+export type PlaylistItemResponse = {
   items: TrackInPlaylistId[];
   total: number;
 };

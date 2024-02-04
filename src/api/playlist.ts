@@ -1,5 +1,5 @@
 import { axiosService } from '../config/axiosService';
-import { PlaylistResponse } from '../type/playlist';
+import { PlaylistItemResponse, PlaylistResponse } from '../type/playlist';
 
 export const getPlaylistAPI = async (
   accessToken: string
@@ -15,10 +15,11 @@ export const getPlaylistAPI = async (
 export const getPlaylistItemAPI = async (
   accessToken: string,
   playlistId: string
-) => {
+): Promise<PlaylistItemResponse> => {
   const url = `/playlists/${playlistId}/tracks`;
   const resp = await axiosService.get(url, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
-  console.log(resp);
+  //   console.log(resp);
+  return resp.data;
 };
