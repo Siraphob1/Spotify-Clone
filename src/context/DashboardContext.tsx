@@ -17,9 +17,7 @@ type DashboardContextT = {
 const DashboardContext = createContext<DashboardContextT>(undefined!);
 
 export const DashboardProvider = ({ children }: PropsWithChildren) => {
-  const [status, setStatus] = useState<DashboardStatusE>(
-    DashboardStatusE.SEARCH
-  );
+  const [status, setStatus] = useState<DashboardStatusE>(DashboardStatusE.HOME);
   const [selectPlaylist, setSelectPlaylist] = useState<PlaylistItem>();
   const [playingSong, setPlayingSong] = useState<TrackItem>();
 

@@ -10,7 +10,7 @@ type Props = {
 
 const Top = ({ className }: Props) => {
   const { status, setStatus } = useDashboard();
-  const [selectMenu, setSelectMenu] = useState<string>('');
+  const [selectMenu, setSelectMenu] = useState<string>('Home');
   const listMenu = [
     {
       label: 'Home',
