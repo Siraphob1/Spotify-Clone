@@ -1,3 +1,3 @@
 export const env = {
-  BackendURL: 'https://spotify-clone-backend-mu.vercel.app',
+  BackendURL: 'https://spotify-clone-backend-six.vercel.app',
 };
