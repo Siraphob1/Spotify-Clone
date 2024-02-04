@@ -24,7 +24,7 @@ const Card = ({ playlist }: Props) => {
     return 'Playlist';
   };
 
-  const fetchPlaylistItem = async () => {
+  const fetchPlaylistItem = () => {
     setStatus(DashboardStatusE.PLAYLIST);
     setSelectPlaylist(playlist);
   };

@@ -59,3 +59,25 @@ export const saveSongToPlayListAPI = async (
   );
   console.log('save song to playlist', resp.data);
 };
+
+export const RemoveSongFromPlayListAPI = async (
+  accessToken: string,
+  playlistId: string,
+  uris: string
+) => {
+  const url = `/playlists/${playlistId}/tracks`;
+  await axiosService.delete(
+    url,
+
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        uris: [uris],
+        position: 0,
+      },
+    }
+  );
+};

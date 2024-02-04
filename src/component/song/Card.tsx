@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { GoPlus } from 'react-icons/go';
-import { IoIosPlay } from 'react-icons/io';
+import { IoIosPlay, IoMdTrash } from 'react-icons/io';
 import Tooltip from '../share/Tooltip';
 import FloatingMenu from '../share/FloatingMenu';
 import { TrackItem } from '../../type/song';
@@ -9,6 +9,10 @@ import { ToolTipPositionE } from '../../type/tooltip';
 import { Menu } from '../../type/floatingMenu';
 import MenuAddPlaylist from '../playlist/MenuAddPlaylist';
 import moment from 'moment';
+import { useDashboard } from '../../hooks/useDashboard';
+import { useRefreshToken } from '../../hooks/useRefreshToken';
+import { RemoveSongFromPlayListAPI, getPlaylistAPI } from '../../api/playlist';
+import { useUser } from '../../hooks/useUser';
 
 type Props = {
   index: number;
@@ -34,15 +38,18 @@ const Card = ({
         setShowAddPlaylist(true);
       },
     },
-    {
-      label: 'Save to your Liked Songs',
-      icon: <GoPlus className="text-[1.2rem]" />,
-      isDropdown: false,
-      onMouseOver: () => {
-        setShowAddPlaylist(false);
-      },
-    },
+    // {
+    //   label: 'Save to your Liked Songs',
+    //   icon: <GoPlus className="text-[1.2rem]" />,
+    //   isDropdown: false,
+    //   onMouseOver: () => {
+    //     setShowAddPlaylist(false);
+    //   },
+    // },
   ];
+  const refresh = useRefreshToken();
+  const { selectPlaylist } = useDashboard();
+  const { setPlaylists } = useUser();
   const [showAddPlaylist, setShowAddPlaylist] = useState<boolean>(false);
   const [isHover, setIsHover] = useState<boolean>(false);
 
@@ -66,6 +73,27 @@ const Card = ({
   const getDate = () => {
     return moment(added_at).fromNow();
   };
+
+  const getPlaylist = async () => {
+    const newAccessToken = await refresh();
+    const resp = await getPlaylistAPI(newAccessToken);
+    setPlaylists(resp.items);
+  };
+
+  const handleRemoveSongFromPlaylist = async () => {
+    const newAccessToken = await refresh();
+    const playlistId = selectPlaylist?.id;
+    const uri = song.uri;
+    if (!playlistId || !uri) return;
+    try {
+      await RemoveSongFromPlayListAPI(newAccessToken, playlistId, uri);
+      getPlaylist();
+      handleClickCardOption(song.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section
       className="flex items-center justify-between  p-[0.5rem] pr-[2rem] hover:bg-hoverSong  rounded-md "
@@ -124,9 +152,26 @@ const Card = ({
                     />
                   );
                 })}
+
+                {!!added_at && (
+                  <FloatingMenu
+                    icon={<IoMdTrash />}
+                    label={'Remove from this playlist'}
+                    onClick={handleRemoveSongFromPlaylist}
+                    onMouseOver={() => setShowAddPlaylist(false)}
+                  />
+                )}
               </div>
 
-              {showAddPlaylist && <MenuAddPlaylist uri={song?.uri} />}
+              {showAddPlaylist && (
+                <MenuAddPlaylist
+                  uri={song?.uri}
+                  onClick={() => {
+                    setShowAddPlaylist(false);
+                    handleClickCardOption(song.id);
+                  }}
+                />
+              )}
             </div>
           )}
         </div>

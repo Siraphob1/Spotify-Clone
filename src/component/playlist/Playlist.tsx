@@ -7,9 +7,12 @@ import { PlaylistItemResponse, TrackInPlaylistId } from '../../type/playlist';
 import Search from '../share/Search';
 import Card from '../song/Card';
 import PlaylistImage from '../share/PlaylistImage';
+import { useUser } from '../../hooks/useUser';
+import classNames from 'classnames';
 
 const Playlist = () => {
   const { selectPlaylist } = useDashboard();
+  const { playlists } = useUser();
   const refresh = useRefreshToken();
 
   const [playlistItem, setPlaylistItem] = useState<PlaylistItemResponse>();
@@ -61,10 +64,12 @@ const Playlist = () => {
   useEffect(() => {
     fetchPlaylistItem();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectPlaylist?.id]);
+  }, [selectPlaylist?.id, playlists]);
 
   // filter when enter search
   useEffect(() => {
+    console.log(playlistItem?.items);
+
     const filterSearch = playlistItem?.items.filter((element) =>
       element.track.name.toLocaleLowerCase().includes(search)
     );
@@ -76,7 +81,7 @@ const Playlist = () => {
   return (
     <LayoutMain>
       {playlistItem && (
-        <section className="flex items-center gap-x-[1rem]  p-[2rem]  ">
+        <section className="flex items-center gap-x-[1rem]  p-[1rem]  ">
           {getImage() && (
             <img
               src={getImage()}
@@ -100,12 +105,16 @@ const Playlist = () => {
       )}
 
       {/* search filter */}
-      <section className="p-[1rem]">
+      <section className="px-[1rem] pb-[1rem]">
         <Search placeholder={'Filter'} search={search} setSearch={setSearch} />
       </section>
 
       {/* song */}
-      <section>
+      <section
+        className={classNames('h-[270px]', {
+          'overflow-y-scroll': filterSongs.length > 4,
+        })}
+      >
         {filterSongs?.map((element, index) => {
           return (
             <Card

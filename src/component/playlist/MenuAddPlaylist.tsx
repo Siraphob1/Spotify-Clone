@@ -4,6 +4,7 @@ import { RiSearchLine } from 'react-icons/ri';
 import {
   createPlaylistAPI,
   getPlaylistAPI,
+  getPlaylistItemAPI,
   saveSongToPlayListAPI,
 } from '../../api/playlist';
 import { useRefreshToken } from '../../hooks/useRefreshToken';
@@ -14,10 +15,11 @@ import classNames from 'classnames';
 
 type Props = {
   onMouseLeave?: () => void;
+  onClick?: () => void;
   uri: string;
 };
 
-const MenuAddPlaylist = ({ onMouseLeave, uri }: Props) => {
+const MenuAddPlaylist = ({ onMouseLeave, onClick, uri }: Props) => {
   const refresh = useRefreshToken();
   const { profile, playlists, setPlaylists } = useUser();
 
@@ -40,6 +42,7 @@ const MenuAddPlaylist = ({ onMouseLeave, uri }: Props) => {
     try {
       await createPlaylistAPI(newAccessToken, userId, payload);
       getPlaylist();
+      if (onClick) onClick();
     } catch (error) {
       console.log(error);
     }
@@ -47,12 +50,24 @@ const MenuAddPlaylist = ({ onMouseLeave, uri }: Props) => {
 
   const handleSaveSongToPlaylist = async (playlistId: string) => {
     try {
+      const canSave = await checkCanSaveToPlaylist(playlistId);
+      if (!canSave) return;
       const newAccessToken = await refresh();
       await saveSongToPlayListAPI(newAccessToken, playlistId, uri);
       getPlaylist();
+      if (onClick) onClick();
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const checkCanSaveToPlaylist = async (playlistId: string) => {
+    const newAccessToken = await refresh();
+    const resp = await getPlaylistItemAPI(newAccessToken, playlistId);
+
+    const findSong = resp.items.find((element) => element.track.uri === uri);
+
+    return findSong ? false : true;
   };
 
   return (
@@ -79,6 +94,7 @@ const MenuAddPlaylist = ({ onMouseLeave, uri }: Props) => {
         onClick={handleCreatePlaylist}
       />
       <hr className="border-gray-400" />
+      {/* playlist  */}
       <section
         className={classNames('h-[160px]', {
           'overflow-y-scroll': playlists.length > 4,
