@@ -40,25 +40,27 @@ const SearchSong = () => {
 
   return (
     <LayoutMain>
-      <Search
-        placeholder={'What do you want to listen to?'}
-        search={search}
-        setSearch={setSearch}
-      />
+      <main className="p-[1rem]">
+        <Search
+          placeholder={'What do you want to listen to?'}
+          search={search}
+          setSearch={setSearch}
+        />
 
-      <section className="mt-[2rem] h-[calc(100vh-10rem)] overflow-y-scroll">
-        {songs?.map((element, index) => {
-          return (
-            <Card
-              key={index}
-              index={index}
-              song={element}
-              clickedOptionId={clickedOptionId}
-              handleClickCardOption={handleClickCardOption}
-            />
-          );
-        })}
-      </section>
+        <section className="mt-[2rem] h-[calc(100vh-10rem)] overflow-y-scroll">
+          {songs?.map((element, index) => {
+            return (
+              <Card
+                key={index}
+                index={index}
+                song={element}
+                clickedOptionId={clickedOptionId}
+                handleClickCardOption={handleClickCardOption}
+              />
+            );
+          })}
+        </section>
+      </main>
     </LayoutMain>
   );
 };

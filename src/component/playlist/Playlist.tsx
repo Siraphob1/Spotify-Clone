@@ -44,15 +44,15 @@ const Playlist = () => {
   return (
     <LayoutMain>
       {playlistItem && (
-        <section className="flex items-center gap-x-[1rem] pl-[1rem] pt-[2rem] ">
+        <section className="flex items-center gap-x-[1rem]  p-[2rem] border ">
           <img
             src={getImage()}
             alt={getImage()}
-            className="w-[200px] h-[200px]"
+            className="w-[200px] h-[200px] rounded-md"
           />
           <section className="">
-            <p>Playlist</p>
-            <h1 className="text-[5rem]">{getPlaylistName()}</h1>
+            <p className="uppercase">Playlist</p>
+            <h1 className="text-[5rem] font-bold">{getPlaylistName()}</h1>
             <p>{getTotal()}</p>
           </section>
         </section>
