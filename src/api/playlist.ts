@@ -1,5 +1,9 @@
 import { axiosService } from '../config/axiosService';
-import { PlaylistItemResponse, PlaylistResponse } from '../type/playlist';
+import {
+  PayloadCreatePlaylist,
+  PlaylistItemResponse,
+  PlaylistResponse,
+} from '../type/playlist';
 
 export const getPlaylistAPI = async (
   accessToken: string
@@ -22,4 +26,18 @@ export const getPlaylistItemAPI = async (
   });
   //   console.log(resp);
   return resp.data;
+};
+
+export const createPlaylistAPI = async (
+  accessToken: string,
+  userId: string,
+  payload: PayloadCreatePlaylist
+) => {
+  const url = `/users/${userId}/playlists`;
+  const resp = await axiosService.post(
+    url,
+    { ...payload, public: true },
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+  console.log('create playlist', resp.data);
 };

@@ -2,14 +2,52 @@ import { IoMdClose } from 'react-icons/io';
 import PlaylistImage from '../share/PlaylistImage';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
+import { createPlaylistAPI, getPlaylistAPI } from '../../api/playlist';
+import { useRefreshToken } from '../../hooks/useRefreshToken';
+import { useUser } from '../../hooks/useUser';
+import { PayloadCreatePlaylist } from '../../type/playlist';
 
 type Props = {
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const CreatePlaylist = ({ isOpen, setOpen }: Props) => {
+  const refresh = useRefreshToken();
+  const { profile, setPlaylists } = useUser();
   const [namePlaylist, setNamePlaylist] = useState<string>(`New playlist`);
   const [description, setDescription] = useState<string>('');
+  const [loadingSave, setLoadingSave] = useState<boolean>(false);
+
+  const getPlaylist = async () => {
+    const newAccessToken = await refresh();
+    const resp = await getPlaylistAPI(newAccessToken);
+    setPlaylists(resp.items);
+  };
+
+  const handleCreatePlaylist = async () => {
+    if (!namePlaylist) return;
+
+    const newAccessToken = await refresh();
+    const userId = profile?.id;
+    if (!newAccessToken || !userId) return;
+
+    setLoadingSave(true);
+
+    const payload: PayloadCreatePlaylist = {
+      name: namePlaylist,
+      description: description,
+    };
+
+    try {
+      await createPlaylistAPI(newAccessToken, userId, payload);
+      getPlaylist();
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingSave(false);
+    }
+  };
 
   useEffect(() => {
     setNamePlaylist(`New playlist ${moment().format('M/D/YYYY')}`);
@@ -63,8 +101,18 @@ const CreatePlaylist = ({ isOpen, setOpen }: Props) => {
 
           {/* bottom */}
           <section className="flex justify-end">
-            <button className="bg-white text-black font-bold px-[1rem] py-[0.2rem] rounded-xl">
-              Save
+            <button
+              className="bg-white text-black font-bold px-[1rem] py-[0.2rem] rounded-xl"
+              onClick={handleCreatePlaylist}
+            >
+              {loadingSave ? (
+                <div>
+                  <span className="loading loading-spinner"></span>
+                  loading
+                </div>
+              ) : (
+                <span>Save</span>
+              )}
             </button>
           </section>
         </main>

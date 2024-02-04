@@ -8,6 +8,7 @@ import SearchSong from '../search/SearchSong';
 import { useDashboard } from '../../hooks/useDashboard';
 import Playlist from '../playlist/Playlist';
 import { DashboardStatusE } from '../../type/dashboard';
+import { getCurrentUserAPI } from '../../api/user';
 
 type Props = {
   code: string;
@@ -16,7 +17,7 @@ type Props = {
 const Dashboard = ({ code }: Props) => {
   const accessToken = useAuth(code);
   const refresh = useRefreshToken();
-  const { setPlaylists } = useUser();
+  const { setPlaylists, setProfile } = useUser();
   const { status } = useDashboard();
 
   useEffect(() => {
@@ -25,7 +26,15 @@ const Dashboard = ({ code }: Props) => {
       const resp = await getPlaylistAPI(newAccessToken);
       setPlaylists(resp.items);
     };
+
+    const getUserProfile = async () => {
+      const newAccessToken = await refresh();
+      const resp = await getCurrentUserAPI(newAccessToken);
+      setProfile(resp);
+    };
+
     getPlaylist();
+    getUserProfile();
   }, [accessToken]);
 
   return (

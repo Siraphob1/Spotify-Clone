@@ -20,3 +20,8 @@ export type PlaylistItemResponse = {
   items: TrackInPlaylistId[];
   total: number;
 };
+
+export type PayloadCreatePlaylist = {
+  name: string;
+  description: string;
+};
