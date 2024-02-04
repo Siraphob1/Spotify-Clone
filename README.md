@@ -1,6 +1,10 @@
 # Spotify Clone
 
-[Link Spotify Clone](https://spotify-clone-sandy-two.vercel.app/)
+[Link Spotify Clone](https://spotify-clone-sandy-two.vercel.app/)  
+Email : `siraphobspotify@hotmail.com`  
+Password: `test@spotify`
+
+use Email & Password for login spotify
 
 ## What can you do on this project?
 
