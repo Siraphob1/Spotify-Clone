@@ -1,5 +1,7 @@
 import { getPlaylistItemAPI } from '../../api/playlist';
+import { useDashboard } from '../../hooks/useDashboard';
 import { useRefreshToken } from '../../hooks/useRefreshToken';
+import { DashboardStatusE } from '../../type/dashboard';
 import { PlaylistItem } from '../../type/playlist';
 
 type Props = {
@@ -8,6 +10,7 @@ type Props = {
 
 const Card = ({ playlist }: Props) => {
   const refresh = useRefreshToken();
+  const { setStatus, setSelectPlaylist } = useDashboard();
 
   const getImage = () => {
     return playlist?.images[0].url;
@@ -22,11 +25,8 @@ const Card = ({ playlist }: Props) => {
   };
 
   const fetchPlaylistItem = async () => {
-    const newAccessToken = await refresh();
-    const playlistId = playlist?.id;
-    if (!playlistId) return;
-    const resp = await getPlaylistItemAPI(newAccessToken, playlistId);
-    console.log('fetch playlist item', resp);
+    setStatus(DashboardStatusE.PLAYLIST);
+    setSelectPlaylist(playlist);
   };
 
   return (

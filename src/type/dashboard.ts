@@ -1,4 +1,4 @@
-export enum DashboardStatus {
+export enum DashboardStatusE {
   HOME = 'HOME',
   SEARCH = 'SEARCH',
   PLAYLIST = 'PLAYLIST',

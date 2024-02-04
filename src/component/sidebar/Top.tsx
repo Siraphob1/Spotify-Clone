@@ -1,26 +1,37 @@
 import { RiSearchEyeLine, RiSearchLine } from 'react-icons/ri';
 import { IoHome, IoHomeOutline } from 'react-icons/io5';
 import { useState } from 'react';
+import { useDashboard } from '../../hooks/useDashboard';
+import { DashboardStatusE } from '../../type/dashboard';
 
 type Props = {
   className: string;
 };
 
 const Top = ({ className }: Props) => {
+  const { status, setStatus } = useDashboard();
+  const [selectMenu, setSelectMenu] = useState<string>('');
   const listMenu = [
     {
       label: 'Home',
       iconClicked: <IoHome />,
       iconNormal: <IoHomeOutline />,
+      onClick: () => {
+        setStatus(DashboardStatusE.HOME);
+        setSelectMenu('Home');
+      },
     },
     {
       label: 'Search',
       iconClicked: <RiSearchEyeLine />,
       iconNormal: <RiSearchLine />,
+      onClick: () => {
+        setStatus(DashboardStatusE.SEARCH);
+        setSelectMenu('Search');
+      },
     },
   ];
 
-  const [selectMenu, setSelectMenu] = useState<string>('');
   return (
     <div className={className}>
       {listMenu.map((element, index) => {
@@ -28,12 +39,12 @@ const Top = ({ className }: Props) => {
           <div
             key={index}
             className="flex items-center gap-x-[1rem] p-[1rem] cursor-pointer "
-            onClick={() => {
-              setSelectMenu(element.label);
-            }}
+            onClick={element.onClick}
           >
             <span className="text-[1.4rem]">
-              {selectMenu === element.label
+              {(status === DashboardStatusE.HOME ||
+                status === DashboardStatusE.SEARCH) &&
+              selectMenu === element.label
                 ? element.iconClicked
                 : element.iconNormal}
             </span>

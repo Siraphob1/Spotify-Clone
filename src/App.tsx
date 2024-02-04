@@ -3,6 +3,7 @@ import Login from './component/Login';
 import Dashboard from './component/dashboard/Dashboard';
 import { UserProvider } from './context/UserContext';
 import { SearchProvider } from './context/SearchContext';
+import { DashboardProvider } from './context/DashboardContext';
 
 function App() {
   const query = new URLSearchParams(window.location.search);
@@ -17,9 +18,11 @@ function App() {
       )}
     >
       <UserProvider>
-        <SearchProvider>
-          {code ? <Dashboard code={code} /> : <Login />}
-        </SearchProvider>
+        <DashboardProvider>
+          <SearchProvider>
+            {code ? <Dashboard code={code} /> : <Login />}
+          </SearchProvider>
+        </DashboardProvider>
       </UserProvider>
     </main>
   );
