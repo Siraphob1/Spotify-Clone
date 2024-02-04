@@ -10,6 +10,7 @@ import Playlist from '../playlist/Playlist';
 import { DashboardStatusE } from '../../type/dashboard';
 import { getCurrentUserAPI } from '../../api/user';
 import Player from '../player/Player';
+import Home from '../home/Home';
 
 type Props = {
   code: string;
@@ -43,6 +44,7 @@ const Dashboard = ({ code }: Props) => {
     <div className="text-white w-full p-[0.5rem] relative  ">
       <section className="flex gap-x-[0.5rem] ">
         <SideBar />
+        {status === DashboardStatusE.HOME && <Home />}
         {status === DashboardStatusE.SEARCH && <SearchSong />}
         {status === DashboardStatusE.PLAYLIST && <Playlist />}
       </section>

@@ -105,7 +105,7 @@ const Playlist = () => {
       )}
 
       {/* search filter */}
-      <section className="px-[1rem] pb-[1rem]">
+      <section className="px-[1rem] py-[1rem]">
         <Search placeholder={'Filter'} search={search} setSearch={setSearch} />
       </section>
 
