@@ -21,6 +21,10 @@ use Email & Password for login spotify
 - TailwindCSS
 - DaisyUI
 
+## Backend Repo
+
+[Backend repository](https://github.com/Siraphob1/Spotify-CloneBackend)
+
 ## Installation
 
 Clone project
