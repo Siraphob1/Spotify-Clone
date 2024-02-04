@@ -1,7 +1,11 @@
 import FloatingMenu from '../share/FloatingMenu';
 import { GoPlus } from 'react-icons/go';
 import { RiSearchLine } from 'react-icons/ri';
-import { createPlaylistAPI, getPlaylistAPI } from '../../api/playlist';
+import {
+  createPlaylistAPI,
+  getPlaylistAPI,
+  saveSongToPlayListAPI,
+} from '../../api/playlist';
 import { useRefreshToken } from '../../hooks/useRefreshToken';
 import { useUser } from '../../hooks/useUser';
 import { PayloadCreatePlaylist } from '../../type/playlist';
@@ -10,9 +14,10 @@ import classNames from 'classnames';
 
 type Props = {
   onMouseLeave?: () => void;
+  uri: string;
 };
 
-const MenuAddPlaylist = ({ onMouseLeave }: Props) => {
+const MenuAddPlaylist = ({ onMouseLeave, uri }: Props) => {
   const refresh = useRefreshToken();
   const { profile, playlists, setPlaylists } = useUser();
 
@@ -34,6 +39,16 @@ const MenuAddPlaylist = ({ onMouseLeave }: Props) => {
 
     try {
       await createPlaylistAPI(newAccessToken, userId, payload);
+      getPlaylist();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSaveSongToPlaylist = async (playlistId: string) => {
+    try {
+      const newAccessToken = await refresh();
+      await saveSongToPlayListAPI(newAccessToken, playlistId, uri);
       getPlaylist();
     } catch (error) {
       console.log(error);
@@ -70,7 +85,13 @@ const MenuAddPlaylist = ({ onMouseLeave }: Props) => {
         })}
       >
         {playlists?.map((element, index) => {
-          return <FloatingMenu key={index} label={element.name} />;
+          return (
+            <FloatingMenu
+              key={index}
+              label={element.name}
+              onClick={() => handleSaveSongToPlaylist(element.id)}
+            />
+          );
         })}
       </section>
     </section>

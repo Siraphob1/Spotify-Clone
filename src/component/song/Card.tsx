@@ -126,7 +126,7 @@ const Card = ({
                 })}
               </div>
 
-              {showAddPlaylist && <MenuAddPlaylist />}
+              {showAddPlaylist && <MenuAddPlaylist uri={song?.uri} />}
             </div>
           )}
         </div>

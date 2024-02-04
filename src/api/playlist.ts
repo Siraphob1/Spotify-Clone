@@ -11,8 +11,6 @@ export const getPlaylistAPI = async (
   const resp = await axiosService.get('/me/playlists', {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
-
-  //   console.log(resp.data);
   return resp.data;
 };
 
@@ -24,7 +22,6 @@ export const getPlaylistItemAPI = async (
   const resp = await axiosService.get(url, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
-  //   console.log(resp);
   return resp.data;
 };
 
@@ -34,10 +31,31 @@ export const createPlaylistAPI = async (
   payload: PayloadCreatePlaylist
 ) => {
   const url = `/users/${userId}/playlists`;
-  const resp = await axiosService.post(
+  await axiosService.post(
     url,
     { ...payload, public: true },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-  console.log('create playlist', resp.data);
+};
+
+export const saveSongToPlayListAPI = async (
+  accessToken: string,
+  playlistId: string,
+  uris: string
+) => {
+  const url = `/playlists/${playlistId}/tracks?uris=${uris}`;
+  const resp = await axiosService.post(
+    url,
+    {
+      uris: [uris],
+      position: 0,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  console.log('save song to playlist', resp.data);
 };
